@@ -32,10 +32,13 @@ import pandas as pd
 import torch
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+# this script lives in xai/; config.py, model/, training/ and runs/ are one level up
+ROOT = os.path.dirname(HERE)
+sys.path.insert(0, ROOT)
 sys.path.insert(0, HERE)
 from explain_residues import attribution_gradcam, load_model   # noqa: E402
 
-BENCH = os.path.join(HERE, "..", "..", "external_benchmark", "benchmark.csv")
+BENCH = os.path.join(ROOT, "..", "..", "external_benchmark", "benchmark.csv")
 DMS_GROUPS = ["Parkin", "SARS-CoV-2 PLpro", "BRCA1", "E4B"]
 AA3 = {"Ala": "A", "Arg": "R", "Asn": "N", "Asp": "D", "Cys": "C", "Gln": "Q", "Glu": "E",
        "Gly": "G", "His": "H", "Ile": "I", "Leu": "L", "Lys": "K", "Met": "M", "Phe": "F",
@@ -67,7 +70,7 @@ def main():
     p.add_argument("--out", required=True)
     a = p.parse_args()
 
-    run_dir = next(d for d in (os.path.join(HERE, a.run), os.path.join(HERE, "runs", a.run))
+    run_dir = next(d for d in (os.path.join(ROOT, a.run), os.path.join(ROOT, "runs", a.run))
                    if os.path.isfile(os.path.join(d, "config.json")))
     os.makedirs(a.out, exist_ok=True)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")

@@ -30,6 +30,8 @@ import urllib.request
 import pandas as pd
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+# this script lives in xai/; the xai_<run>/ outputs and xai_pdb/ are one level up
+ROOT = os.path.dirname(HERE)
 THREE = {"ALA": "A", "ARG": "R", "ASN": "N", "ASP": "D", "CYS": "C", "GLN": "Q", "GLU": "E",
          "GLY": "G", "HIS": "H", "ILE": "I", "LEU": "L", "LYS": "K", "MET": "M", "PHE": "F",
          "PRO": "P", "SER": "S", "THR": "T", "TRP": "W", "TYR": "Y", "VAL": "V", "MSE": "M"}
@@ -61,7 +63,7 @@ def read_residues(pdb_path, chain=None):
 
 
 def load_scores(run, uid, layer, kind):
-    f = os.path.join(HERE, f"xai_{run}", "attributions.csv")
+    f = os.path.join(ROOT, f"xai_{run}", "attributions.csv")
     if not os.path.exists(f):
         raise FileNotFoundError(f"{f} -- run explain_residues.py --run {run} first")
     col = "attn_weight" if kind == "attn" else "attribution"
@@ -98,7 +100,7 @@ def main():
     p.add_argument("--out", default=None, help="default: xai_pdb/<id>/")
     a = p.parse_args()
 
-    out = a.out or os.path.join(HERE, "xai_pdb", a.id)
+    out = a.out or os.path.join(ROOT, "xai_pdb", a.id)
     os.makedirs(out, exist_ok=True)
     pdb = a.pdb or fetch_alphafold(a.id, out)
     struct, chain = read_residues(pdb, a.chain)

@@ -71,7 +71,7 @@ export TOKENIZERS_PARALLELISM=false
 export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 
 srun apptainer exec --nv --bind "$PARENT_DIR:$PARENT_DIR" $EXTRA_BIND "$SIF" \
-    python3 explain_residues.py \
+    python3 xai/explain_residues.py \
         --run "$RUN_NAME" \
         --layers all \
         --catalytic-sites "$CATALYTIC_SITES" \
@@ -83,12 +83,12 @@ srun apptainer exec --nv --bind "$PARENT_DIR:$PARENT_DIR" $EXTRA_BIND "$SIF" \
 # above is what matters and is already written; plot locally if this is skipped.
 if apptainer exec "$SIF" python3 -c "import matplotlib" 2>/dev/null; then
     apptainer exec --bind "$PARENT_DIR:$PARENT_DIR" $EXTRA_BIND "$SIF" \
-        python3 plot_xai.py "$OUT" || echo "plotting failed (non-fatal)"
+        python3 xai/plot_xai.py "$OUT" || echo "plotting failed (non-fatal)"
 else
     echo
     echo "matplotlib not in $SIF -- skipping the figure."
     echo "Results are complete in $OUT/ (attributions.csv, summary.json)."
-    echo "Plot locally with:  python3 plot_xai.py $OUT"
+    echo "Plot locally with:  python3 xai/plot_xai.py $OUT"
 fi
 
 echo

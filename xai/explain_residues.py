@@ -62,7 +62,9 @@ import pandas as pd
 import torch
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, HERE)
+# this script lives in xai/; config.py, model/ and training/ are one level up
+ROOT = os.path.dirname(HERE)
+sys.path.insert(0, ROOT)
 
 from config import Config                                  # noqa: E402
 from model.lora_classifier import EsmLoraClassifier   # noqa: E402
@@ -175,10 +177,10 @@ def main():
     p.add_argument("--out", required=True)
     args = p.parse_args()
 
-    run_dir = next((d for d in (os.path.join(HERE, args.run), os.path.join(HERE, "runs", args.run))
+    run_dir = next((d for d in (os.path.join(ROOT, args.run), os.path.join(ROOT, "runs", args.run))
                     if os.path.isfile(os.path.join(d, "config.json"))), None)
     if run_dir is None:
-        raise FileNotFoundError(f"run '{args.run}' not found under {HERE}/ or {HERE}/runs/")
+        raise FileNotFoundError(f"run '{args.run}' not found under {ROOT}/ or {ROOT}/runs/")
     os.makedirs(args.out, exist_ok=True)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
