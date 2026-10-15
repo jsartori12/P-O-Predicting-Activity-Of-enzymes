@@ -1,0 +1,77 @@
+# ---------------------------------------------------------------------------
+# Model weights and training outputs.
+# These are REPRODUCIBLE (train.py regenerates them) and huge: runs/ alone is
+# 1.4 GB. Git stores every version of a file forever, and a .pt barely
+# compresses, so a few commits of a checkpoint would outgrow all the code by
+# three orders of magnitude.
+# ---------------------------------------------------------------------------
+runs/
+lora_r8/
+lora_r8_posw/
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+
+# ---------------------------------------------------------------------------
+# XAI attribution outputs: ~190 MB of .npz per model, ten of them.
+# The scripts that produce them ARE tracked, which is what matters.
+# ---------------------------------------------------------------------------
+xai_lora_*/
+xai_dms_*/
+xai_pdb/
+*.npz
+*.log
+
+# ---------------------------------------------------------------------------
+# The virtual environment. Never commit one: it is hundreds of MB, specific to
+# this machine's Python and CUDA, and useless to anyone else. A
+# requirements.txt reproduces it in one line instead.
+# ---------------------------------------------------------------------------
+# No trailing slash on .venv: it is a SYMLINK to ../ESM2Classifier/.venv here,
+# and a pattern ending in "/" matches directories only -- a symlink is not one.
+.venv
+.venv.bak/
+venv/
+env/
+
+# ---------------------------------------------------------------------------
+# Python bytecode: generated from the .py files on every run.
+# ---------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ipynb_checkpoints/
+
+# ---------------------------------------------------------------------------
+# Datasets. Large, and often not ours to redistribute. The build scripts and
+# the documented provenance go in the repo; the bytes do not.
+# ---------------------------------------------------------------------------
+*.csv
+*.fasta
+*.pdb
+*.h5
+*.hdf5
+raw/
+splits/
+classifier_dataset/
+
+# ---------------------------------------------------------------------------
+# Accidental 0-byte FILES created by a shell typo on 25 Sep (np, os, plt,
+# torch -- redirections that were meant to be imports). No trailing slash:
+# they are files, not directories. Safe to delete outright; ignored here so
+# they cannot be committed by accident in the meantime.
+# ---------------------------------------------------------------------------
+/np
+/os
+/plt
+/torch
+
+# ---------------------------------------------------------------------------
+# Editor, OS and tooling noise.
+# ---------------------------------------------------------------------------
+.DS_Store
+.vscode/
+.idea/
+*.swp
+.claude/
