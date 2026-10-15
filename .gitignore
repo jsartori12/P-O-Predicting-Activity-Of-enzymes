@@ -77,6 +77,15 @@ classifier_dataset/
 *.pdf
 *.svg
 
+# ...except results/, which holds the small number of CURATED figures that the
+# README and the reports refer to. "!" un-ignores; a later rule beats an earlier
+# one, so this has to come after *.png above. Keep this directory hand-picked:
+# anything dropped here is committed forever at full size.
+!results/
+!results/*.png
+!results/*.pdf
+!results/*.svg
+
 # ---------------------------------------------------------------------------
 # Editor, OS and tooling noise.
 # ---------------------------------------------------------------------------
