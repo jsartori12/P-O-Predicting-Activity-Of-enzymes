@@ -167,25 +167,6 @@ MCC.
 
 ---
 
-## What this means in practice
-
-**As a binary classifier at 0.5, it is not usable.** Accuracy 68 % against a
-65.8 % majority baseline, recall 0.99, balanced accuracy 0.53.
-
-**As a ranker, there is real signal** — ROC-AUC 0.81 on Parkin, 0.83–0.94 on E4B
-— but it is thrown away by the fixed threshold. Any practical use needs a
-threshold fitted per target, or a top-k ranking rather than a yes/no call.
-
-**The blind spot is specific and characterisable.** Mutations distant from the
-active site are missed roughly half to two-thirds of the time. Those are the ones
-that most plausibly act by destabilising the fold, which suggests a stability
-(ΔΔG) predictor as a complementary filter rather than a better activity model.
-That hypothesis is **inferred from where the errors fall and has not been
-tested** — the decisive experiment is whether the missed variants are in fact
-destabilising.
-
----
-
 ## Reproducing
 
 Source data and scripts live outside this repository, in `Active_or_not/external_benchmark/`:
